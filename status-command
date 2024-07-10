@@ -1,0 +1,17 @@
+#!/bin/sh
+
+OUTPUT="BATTERY: $(cat "/sys/class/power_supply/BAT0/capacity")%%";
+
+HOSTNAME="$(hostname -I)"
+
+if [ -z "$HOSTNAME" ]
+then
+	OUTPUT="$OUTPUT | NO HOSTNAME"
+else
+	OUTPUT="$OUTPUT | HOSTNAME: $(hostname -I)"
+fi
+
+OUTPUT="$OUTPUT | $(date +"DATE: %Y%m%d [%A] | TIME: %H:%M:%S")"
+
+printf "$OUTPUT"
+
