@@ -8,7 +8,7 @@ if [ -z "$HOSTNAME" ]
 then
 	OUTPUT="$OUTPUT | NO HOSTNAME"
 else
-	OUTPUT="$OUTPUT | HOSTNAME: $(hostname -I)"
+	OUTPUT="$OUTPUT | HOSTNAME: $(hostname -I | xargs)"
 fi
 
 OUTPUT="$OUTPUT | $(date +"DATE: %Y%m%d [%A] | TIME: %H:%M:%S")"
