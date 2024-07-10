@@ -1,6 +1,34 @@
 #!/bin/sh
 
+CPU_USAGE(){
+	CPU_USAGE_NEW=$(awk '$1 ~ /^cpu/' /proc/stat | awk 'NR==1')
+	
+	CPU_USAGE_OLD_IDLE=$(printf "$CPU_USAGE_OLD" | awk '{printf $5}')
+	
+	CPU_USAGE_OLD_TOTAL=0
+	for CPU_USAGE_OLD_VALUES in $(printf "$CPU_USAGE_OLD" | awk '{$1=""; printf substr($0,2)}')
+	do
+		CPU_USAGE_OLD_TOTAL=$(($CPU_USAGE_OLD_TOTAL+$CPU_USAGE_OLD_VALUES))
+	done
+	
+	CPU_USAGE_NEW_IDLE=$(printf "$CPU_USAGE_NEW" | awk '{printf $5}')
+	
+	CPU_USAGE_NEW_TOTAL=0
+	for CPU_USAGE_NEW_VALUES in $(printf "$CPU_USAGE_NEW" | awk '{$1=""; printf substr($0,2)}')
+	do
+		CPU_USAGE_NEW_TOTAL=$(($CPU_USAGE_NEW_TOTAL+$CPU_USAGE_NEW_VALUES))
+	done
+	
+	CPU_USAGE=$(printf "%06.2f" "$((10000*$(($(($CPU_USAGE_NEW_TOTAL-$CPU_USAGE_OLD_TOTAL))-$(($CPU_USAGE_NEW_IDLE-$CPU_USAGE_OLD_IDLE))))/$(($CPU_USAGE_NEW_TOTAL-$CPU_USAGE_OLD_TOTAL))))e-2")
+	
+	CPU_USAGE_OLD=$CPU_USAGE_NEW
+}
+CPU_USAGE_OLD=$(awk '$1 ~ /^cpu/' /proc/stat | awk 'NR==1')
+CPU_USAGE
+
 OUTPUT="BATTERY: $(cat "/sys/class/power_supply/BAT0/capacity")%%";
+
+OUTPUT="$OUTPUT | CPU USAGE: $CPU_USAGE%%"
 
 HOSTNAME="$(hostname -I)"
 
