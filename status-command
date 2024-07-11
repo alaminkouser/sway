@@ -24,6 +24,7 @@ CPU_USAGE(){
 	CPU_USAGE_OLD=$CPU_USAGE_NEW
 }
 CPU_USAGE_OLD=$(awk '$1 ~ /^cpu/' /proc/stat | awk 'NR==1')
+sleep 1
 CPU_USAGE
 
 OUTPUT="BATTERT: $(cat "/sys/class/power_supply/BAT0/capacity")%%";
@@ -39,7 +40,7 @@ else
 	OUTPUT="$OUTPUT | HOSTNAME: $(hostname -I | xargs)"
 fi
 
-OUTPUT="$OUTPUT | $(date +"DATE: %Y%m%d [%A] | TIME: %H:%M:%S")"
+OUTPUT="$OUTPUT | $(date +"DATE: %Y%m%d [%A] | TIME: %H:%M")"
 
 printf "$OUTPUT"
 
