@@ -26,7 +26,7 @@ CPU_USAGE(){
 CPU_USAGE_OLD=$(awk '$1 ~ /^cpu/' /proc/stat | awk 'NR==1')
 CPU_USAGE
 
-OUTPUT="BATTERY: $(cat "/sys/class/power_supply/BAT0/capacity")%%";
+OUTPUT="BATTERT: $(cat "/sys/class/power_supply/BAT0/capacity")%%";
 
 OUTPUT="$OUTPUT | CPU USAGE: $CPU_USAGE%%"
 
