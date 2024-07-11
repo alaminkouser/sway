@@ -25,6 +25,9 @@ bindsym $mod+b exec google-chrome
 # Kill focused window
 bindsym $mod+Shift+q kill
 
+# Move to next active workspace
+bindsym $mod+tab workspace next_on_output
+
 # mouse button for dragging.
 floating_modifier $mod normal
 
