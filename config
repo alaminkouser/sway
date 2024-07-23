@@ -20,7 +20,10 @@ output * bg #000000 solid_color
 bindsym $mod+Return exec $HOME/.local/bin/wezterm/usr/bin/wezterm
 
 # Start Google Chrome
-bindsym $mod+b exec google-chrome
+bindsym $mod+b exec google-chrome-stable
+
+# Start Google Chrome in Incognito
+bindsym $mod+i exec google-chrome-stable --incognito
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -66,8 +69,10 @@ bindsym $mod+space floating toggle
 
 bar {
     position bottom
-	status_command while $HOME/.config/sway/status-command; do sleep 1; done
-    status_edge_padding 0
+	# status_command while $HOME/.config/sway/status-command; do sleep 1; done
+	status_command $HOME/.config/sway/status-command
+
+	status_edge_padding 0
 	status_padding 0
 	colors {
         statusline #808080

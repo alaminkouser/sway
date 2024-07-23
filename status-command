@@ -23,24 +23,29 @@ CPU_USAGE(){
 	
 	CPU_USAGE_OLD=$CPU_USAGE_NEW
 }
-CPU_USAGE_OLD=$(awk '$1 ~ /^cpu/' /proc/stat | awk 'NR==1')
-sleep 1
-CPU_USAGE
 
-OUTPUT="BATTERT: $(cat "/sys/class/power_supply/BAT0/capacity")%%";
-
-OUTPUT="$OUTPUT | CPU USAGE: $CPU_USAGE%%"
-
-HOSTNAME="$(hostname -I)"
-
-if [ -z "$HOSTNAME" ]
-then
-	OUTPUT="$OUTPUT | NO HOSTNAME"
-else
-	OUTPUT="$OUTPUT | HOSTNAME: $(hostname -I | xargs)"
-fi
-
-OUTPUT="$OUTPUT | $(date +"DATE: %Y%m%d [%A] | TIME: %H:%M")"
-
-printf "$OUTPUT"
+while true
+do
+	CPU_USAGE_OLD=$(awk '$1 ~ /^cpu/' /proc/stat | awk 'NR==1')
+	
+	OUTPUT="BATTERY: $(cat "/sys/class/power_supply/BAT0/capacity")%%";
+	
+	OUTPUT="$OUTPUT | CPU USAGE: $CPU_USAGE%%"
+	
+	HOSTNAME="$(hostname -I)"
+	if [ -z "$HOSTNAME" ]
+	then
+		OUTPUT="$OUTPUT | NO HOSTNAME"
+	else
+		OUTPUT="$OUTPUT | HOSTNAME: $(hostname -I | xargs)"
+	fi
+	
+	OUTPUT="$OUTPUT | $(date +"%Y%m%d [%A] %H:%M:%S")"
+	
+	printf "$OUTPUT"
+	
+	sleep 1
+	
+	CPU_USAGE
+done
 
