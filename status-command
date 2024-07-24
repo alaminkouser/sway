@@ -50,7 +50,8 @@ do
 	
 	
 	OUTPUT="BATTERY: $(cat "/sys/class/power_supply/BAT0/capacity")%%";
-	
+
+	CPU_USAGE
 	OUTPUT="$OUTPUT | CPU USAGE: $CPU_USAGE%%"
 	
 	HOSTNAME="$(hostname -I)"
@@ -58,6 +59,7 @@ do
 	then
 		OUTPUT="$OUTPUT | NO HOSTNAME"
 	else
+		INTERNET_SPEED_METER
 		OUTPUT="$OUTPUT | HOSTNAME: $(hostname -I | xargs) | $(printf "INTERNET SPEED: D %.2f KB/s U %.2f KB/s T %.2f KB/s\n" "$INTERNET_SPEED_METER_DOWN" "$INTERNET_SPEED_METER_UP" "$(awk "BEGIN {print ${INTERNET_SPEED_METER_DOWN}+${INTERNET_SPEED_METER_UP}}")")"
 	fi
 	
@@ -65,8 +67,6 @@ do
 	
 	printf "$OUTPUT"
 	
-	sleep 1
-	
-	CPU_USAGE
+	sleep 1	
 done
 
