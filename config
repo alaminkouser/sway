@@ -68,7 +68,7 @@ bindsym $mod+Shift+0 move container to workspace number 10
 bindsym $mod+space floating toggle
 
 bar {
-    position bottom
+    position top
 	# status_command while $HOME/.config/sway/status-command; do sleep 1; done
 	status_command $HOME/.config/sway/status-command
 
